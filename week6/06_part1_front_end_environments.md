@@ -18,7 +18,7 @@ publish your page. If you need a refresher, revisit Week 1 at:
 
 *How is everything related?*
 
-<img src="images/environment.png" alt="Drawing" style="width: 50%;"/>
+<img src="images/environment.png" alt="Drawing" style="text-align: center; width: 75%;"/>
 
 HTML, standing for [HyperText Markup Language](https://en.wikipedia.org/wiki/HTML), organizes the **content**
 of your page by creating elements in which your page materials are contained.
@@ -30,6 +30,18 @@ The directory in which you keep your website materials should be organized in th
 When a browser requests your page, your server will return the index.html file in the root-directory. The index.html is your 'root'... or 'home'... page.
 
 <img src="http://duspviz.mit.edu/wp-content/uploads/2015/01/file-structure.png" alt="Drawing"/>
+
+### Start up a Web Server
+
+To work with our website, we need our computer to act like a webserver, allowing it to access files online. There are many tools for doing this, and one is built right into python. Use the Terminal to change into the directory in which your website files reside. Once there, type the following to start a simple Python server.
+
+```xml
+$ python -m SimpleHTTPServer 8080
+```
+
+Now open a browser and access your site at: **http://localhost:8080**
+
+Modify and change folders in web folder, save and then refresh your page. Your page will appear as it would if it were live on the internet, except only visible to you locally. For more on this [click here](http://duspviz.mit.edu/tutorials/localhost-servers/).
 
 ### HTML: The Core Concepts
 
@@ -171,8 +183,8 @@ Our HTML document is looking bare, we need to add content. We can start by modif
 Modify the HTML code on the page to include the following. Add some paragraph **p** elements within the **div** element of your page.
 
 ```xml
-<p>This is my first paragraph.</p>
-<p>This is my second paragraph.</p>
+<p id="foo">This is my first paragraph.</p>
+<p id="bar">This is my second paragraph.</p>
 ```
 
 The h1 tag signifies a heading, this is a bolded style of text that vary in size ranging from h1 to h6. The p tag signifies a paragraph that can contain large blocks of text. 
@@ -220,8 +232,8 @@ At present, your document will look something like the following.
 		<!-- This is a comment -->
 		<h1>Hello World</h1>
 		<div id="main">
-			<p>This is my first paragraph.</p>
-			<p>This is my second paragraph. <a href="http://dusp.mit.edu">Take me to DUSP.</a></p>
+			<p id="foo">This is my first paragraph.</p>
+			<p id="bar">This is my second paragraph. <a href="http://dusp.mit.edu">Take me to DUSP.</a></p>
 			<img src="images/cat.jpg"/>
 		</div>
 	</body>
@@ -266,7 +278,150 @@ body {
 }
 ```
 
-====
-### Push to Github
+All content in the **body** tag are now in the center of the page.
 
-Finally, when done with your edits. Commit yourPush your site to Github
+#### Basic Syntax
+
+Basic CSS syntax looks like the following.
+
+```css
+[selector] {
+	[property]: [value];
+}
+```
+
+Selectors are page elements, and can be tags, ids, titles, classes, etc. For example, if we want to style everything that falls in the **body** tag, we use the **body** selector as above.
+
+Selectors can be specified **by element:**
+
+```css
+p {
+	font-size: 12;
+}
+```
+
+**By class:**
+
+```css
+.main {
+	font-size: 12;
+}
+```
+
+**By ID:**
+
+```css
+#main {
+	font-size: 12;
+}
+```
+
+#### Inheritance and Order of Operations
+
+CSS follows the DOM model, with styles applied to elements higher in the DOM applied to those that are descendents. If selectors are defined in multiple locations in your CSS, which one gets precedence?
+
+<img src="images/dom.png" alt="DOM"/>
+
+There are two general rules of thumb.
+
+* CSS defined last in your document will supersede CSS set on a selector earlier in your document.
+* The more specific selector will override the less specific selector. For example, a style set on the body selector will be overridden by a style set on an element within the body, such as one by ID.
+
+
+#### Properties and Values
+
+There are hundreds of properties you can set using CSS. Some of these include font, color, location on page, opacity, size, etc. An extensive list can be found in CSS reference documents. Two prominent references are by W3Schools and Mozilla, check them out for further reading.
+
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/Reference" title="Mozilla CSS Reference" target="_blank">Mozilla CSS Reference</a></li>
+<li><a href="http://www.w3schools.com/cssref/default.asp" title="w3Schools CSS Reference" target="_blank">W3Schools CSS Reference</a></li>
+</ul>
+
+
+#### *Style Font and Type Size*
+
+To change the font for all of our document, we change it on the highest level we can by signifying we want to style everything within the html tag. This can be accomplished by adding the following selector and properties to the stylesheet.
+
+```css
+html {
+  font-family: Georgia, Times, serif;
+  font-size: 24px;
+  line-height: 32px;
+}
+```
+
+Font family prioritizes a list of font names for the selected element. Line height specifies the minimal height of line boxes within the element.
+
+#### *Change Background Color*
+
+Adjust the color of an element using background color.
+
+```css
+p {
+  background-color: #dddddd;
+}
+```
+
+Colors can specified using hex, RGB, or a set of [preset supported color names](http://www.w3schools.com/colors/colors_names.asp).
+
+#### *Pseudo-Classes and Changing Link Color*
+
+Change link colors using the following.
+
+```css
+a {
+  color: orange;
+}
+```
+
+In CSS, elements have what are called [Pseudo-Classes](https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes). Pseudo-classes are keywords added to selectors that specifies a special state of the element to be selected. We signify a pseudo-class using a **:**. For example, one pseudo-class is hover, and it signifies what happens you hover over an element. This can be used to change the color a link turns when you hover over it.
+
+```css
+a:hover {
+  color: orange;
+}
+```
+
+#### The Box Model: Size and Positioning
+
+Every element in your document is represented by a box. These boxes allow you to set properties such as margins around items. 
+
+<img src="http://duspviz.mit.edu/wp-content/uploads/2015/01/padding-width.png" alt="DOM"/>
+
+* **Padding** - The content is surrounded by the padding area, exists between the content and the border.
+
+* **Border** - Every box has a border that exists on the outer edge of the padding area.
+
+* **Margin** - Margin defines the distance between the element and neighboring elements. Margin never has color.
+
+* **Dimensions** - Controls the height and width of the elements.
+
+You can also adjust the margins, padding, and border individually on each side of the element. And example element, along with its styling, is below. Add this to your CSS stylesheet and save to see how it changes our basic webpage.
+
+```css
+p {
+    background-color: #dddddd;
+    padding: 20px;
+    width: 320px;
+    height: 40px;
+    margin-right: 10px;
+}
+```
+
+#### Positioning
+
+Positioning your element
+
+* **Relative** - Position according to normal document flow, then shift using positioning properties such as *top* or *left*.
+
+* **Absolute** - Take out of normal flow, and manually position against the containing element.
+
+* **Fixed** - Take out of normal flow and manually position against the browser window.
+
+Another available property is called is **float**. Float can be used to wrap text around images.
+
+CSS is the way you style your page, learn more by referring to the references, or playing around in a sandbox such as [CSS Desk](http://www.cssdesk.com/).
+
+===
+
+This is the end of Part 1. In Part 2, we address the third leg of the tripod. JavaScript!
